@@ -12,15 +12,14 @@ namespace DiceSpace
 
         public void SetEdgePoints()
         {
-            int diceEdgeCount = pathParent.childCount + 2;
+            int diceEdgeCount = pathParent.childCount + 1;
 
             diceEdges = new Vector3[diceEdgeCount];
 
-            for (int i = 0; i < diceEdgeCount - 2; i++)
+            for (int i = 0; i < diceEdgeCount-1; i++)
                 diceEdges[i] = pathParent.GetChild(i).position;
 
-            diceEdges[diceEdgeCount - 2] = pathParent.GetChild(0).position;
-            diceEdges[diceEdgeCount - 1] = pathParent.position;
+            diceEdges[diceEdgeCount-1] = pathParent.position;
         }
 
         public Vector3[] DiceEdges => diceEdges;

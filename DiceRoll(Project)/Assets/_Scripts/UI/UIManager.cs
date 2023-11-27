@@ -4,6 +4,7 @@ using DiceSpace.CompleteObserver;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UISpace
 {
@@ -17,21 +18,29 @@ namespace UISpace
         [SerializeField] private TextMeshProUGUI clickDiceText;
         [SerializeField] private TextMeshProUGUI difClassText;
 
-        private DiceEdgeSingleton randomDiceEdge;
+        private DiceEdge randomDiceEdge;
         private DifficultyClass difClass;
         private RollResult rollResult;
 
-        private void Awake()
+        [Inject]
+        public void Constructor(DifficultyClass difClass)
         {
-            difClass = new DifficultyClass();
-            rollResult = new RollResult();
-            randomDiceEdge = DiceEdgeSingleton.Instance;
+            this.randomDiceEdge = DiceEdge.Instance;
+            this.difClass = difClass;
+
+            rollResult = new RollResult(resultText, clickDiceText);
         }
 
         private void Start()
         {
-            difClass.GenerateDifClass();
             difClass.SetDifficultyClass(difClassText);
+            difClass.GenerateDifClass();
+            difClass.ShowDifficulty();
+        }
+
+        public void Play()
+        {
+            difClass.GenerateDifClass();
             difClass.ShowDifficulty();
         }
 
@@ -45,7 +54,6 @@ namespace UISpace
         public void OnDiceRollCompleted()
         {
             ResultGame();
-            SetTextMeshPro(true);
             SetButton(true);
         }
 
@@ -57,10 +65,10 @@ namespace UISpace
         {
             resultText.enabled = true;
 
-            int resultNumber = randomDiceEdge.EdgeNumber+1;
+            int resultNumber = randomDiceEdge.EdgeNumber + 1;
             int difClassNum = difClass.RandomDifClass;
 
-            resultText.text = rollResult.ResultGame(resultText, resultNumber, difClassNum);
+            resultText.text = rollResult.ResultGame(resultNumber, difClassNum);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace DiceSpace
 
         public void Rotate()
         {
-            rotateTweener = diceTransform.DORotate(rotateVec, speed).
+            rotateTweener = diceTransform.DORotate(rotateVec, speed,RotateMode.FastBeyond360).
                 SetSpeedBased().
                 SetEase(Ease.Linear).
                 SetLoops(-1);

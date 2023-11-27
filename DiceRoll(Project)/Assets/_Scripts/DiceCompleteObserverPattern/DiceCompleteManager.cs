@@ -5,26 +5,30 @@ namespace DiceSpace.CompleteObserver
 {
     public sealed class DiceCompleteManager : MonoBehaviour
     {
-        [SerializeField] private UIManager uiManager;
+        [Header("UI")]
         [SerializeField] private RectTransform diceTransform;
+
+        [Header("Complete Observers")]
+        [SerializeField] private UIManager uiManager;
+        [SerializeField] private PlayButton playButton;
+        private DiceSideSetter diceSideSetter;
 
         private DiceComplete dice;
         private DicePunch dicePunch;
-        private DiceSideSetter diceSideSetter;
 
         private void Awake()
         {
             dice = new DiceComplete();
-
-            dicePunch = new DicePunch(diceTransform);
             diceSideSetter = new DiceSideSetter(diceTransform);
+            dicePunch = new DicePunch(diceTransform);
         }
 
         private void OnEnable()
         {
+            dice.AddObserver(uiManager);
+            dice.AddObserver(playButton);
             dice.AddObserver(diceSideSetter);
             dice.AddObserver(dicePunch);
-            dice.AddObserver(uiManager);
 
             DiceRoll.OnRollComplete += NotifyObservers;
         }

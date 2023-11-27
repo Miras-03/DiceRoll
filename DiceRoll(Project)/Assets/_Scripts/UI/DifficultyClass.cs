@@ -8,8 +8,6 @@ public sealed class DifficultyClass
     private int[] difficultyNumbers = { 10, 15 };
     public int RandomDifClass { get; set; }
 
-    public void Initialize() => GenerateDifClass();
-
     public void SetDifficultyClass(TextMeshProUGUI difficultyIndicator) => 
         this.difficultyIndicator = difficultyIndicator;
 
