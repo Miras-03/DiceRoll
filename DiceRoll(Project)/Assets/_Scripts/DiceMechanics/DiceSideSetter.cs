@@ -1,13 +1,15 @@
 using UnityEngine;
+using DiceSpace.CompleteObserver;
 
-namespace DiceOption
+namespace DiceSpace
 {
     public sealed class DiceSideSetter : IDiceCompleteObserver
     {
+        private DiceEdgeSingleton randomDiceEdge;
         private RectTransform diceTransform;
 
         #region
-        private Vector3[] diceSides = {
+        private Vector3[] diceEdges = {
             new Vector3(346,198,239),
             new Vector3(341,355,120),
             new Vector3(51,205,14),
@@ -31,15 +33,19 @@ namespace DiceOption
             };
         #endregion
 
-        public DiceSideSetter(RectTransform diceTransform) => this.diceTransform = diceTransform;
+        public DiceSideSetter(RectTransform diceTransform)
+        {
+            this.diceTransform = diceTransform;
+            randomDiceEdge = DiceEdgeSingleton.Instance;
+        }
 
         public void OnDiceRollCompleted() => SetSide();
 
         public void SetSide()
         {
-            int maxSize = diceSides.Length;
-            int randNum = Random.Range(0, maxSize);
-            diceTransform.rotation = Quaternion.Euler(diceSides[randNum]);
+            randomDiceEdge.GenerateRandomNumber();
+            int diceEdge = randomDiceEdge.EdgeNumber;
+            diceTransform.rotation = Quaternion.Euler(diceEdges[diceEdge]);
         }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
+using UISpace;
 
-namespace DiceOption.Observer
+namespace DiceSpace.CompleteObserver
 {
     public sealed class DiceCompleteManager : MonoBehaviour
     {

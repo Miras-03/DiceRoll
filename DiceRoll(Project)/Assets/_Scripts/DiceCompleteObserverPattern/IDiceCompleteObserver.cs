@@ -1,4 +1,7 @@
-public interface IDiceCompleteObserver
+namespace DiceSpace.CompleteObserver
 {
-    void OnDiceRollCompleted();
+    public interface IDiceCompleteObserver
+    {
+        void OnDiceRollCompleted();
+    }
 }

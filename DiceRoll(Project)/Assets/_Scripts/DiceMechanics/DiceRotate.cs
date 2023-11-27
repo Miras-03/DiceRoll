@@ -1,10 +1,11 @@
 using DG.Tweening;
+using DiceSpace.StartObserver;
 using System;
 using UnityEngine;
 
-namespace DiceOption
+namespace DiceSpace
 {
-    public sealed class DiceRotate : IDisposable
+    public sealed class DiceRotate : IDiceStartObserver, IDisposable
     {
         private Tween rotateTweener;
         private RectTransform diceTransform;
@@ -19,6 +20,8 @@ namespace DiceOption
         }
 
         public void Dispose() => DiceRoll.OnRollComplete -= OnDiceRollCompleted;
+
+        public void OnDiceRollStart() => Rotate();
 
         private void OnDiceRollCompleted() => Kill();
 

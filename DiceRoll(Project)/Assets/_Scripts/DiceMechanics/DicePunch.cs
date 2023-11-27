@@ -1,7 +1,8 @@
 using DG.Tweening;
+using DiceSpace.CompleteObserver;
 using UnityEngine;
 
-namespace DiceOption
+namespace DiceSpace
 {
     public sealed class DicePunch : IDiceCompleteObserver
     {

@@ -1,26 +1,25 @@
 using DG.Tweening;
 using UnityEngine;
 using System;
+using DiceSpace.StartObserver;
 
-namespace DiceOption
+namespace DiceSpace
 {
-    public sealed class DiceRoll
+    public sealed class DiceRoll : IDiceStartObserver
     {
         public static Action OnRollComplete;
 
-        private DiceRotate diceRotate;
         private DicePath dicePath;
         private RectTransform diceTransform;
 
         public DiceRoll(RectTransform diceTransform, RectTransform pathParent)
         {
             this.diceTransform = diceTransform;
-
-            diceRotate = new DiceRotate(diceTransform);
             dicePath = new DicePath(pathParent);
-
             dicePath.SetEdgePoints();
         }
+
+        public void OnDiceRollStart() => Roll();
 
         public void Roll()
         {
@@ -28,10 +27,7 @@ namespace DiceOption
 
             diceTransform.
                 DOPath(dicePath.DiceEdges, rollDuration, PathType.CatmullRom).SetEase(Ease.OutSine).
-                OnComplete(() => diceRotate.Kill()).
                 OnComplete(() => OnRollComplete.Invoke());
-
-            diceRotate.Rotate();
         }
     }
 }

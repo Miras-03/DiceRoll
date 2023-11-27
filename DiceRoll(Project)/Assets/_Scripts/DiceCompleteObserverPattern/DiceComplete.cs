@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DiceOption.Observer
+namespace DiceSpace.CompleteObserver
 {
     public sealed class DiceComplete
     {

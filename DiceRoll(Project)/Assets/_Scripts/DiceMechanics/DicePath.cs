@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DiceOption
+namespace DiceSpace
 {
     public sealed class DicePath
     {
