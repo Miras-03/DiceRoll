@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using Zenject;
 
-public class PlayButton : IDisposable, IDiceStartObserver, IDiceCompleteObserver
+public class PlayButton : IDisposable, IRollStartObserver, IRollCompleteObserver
 {
     private Button rollButton;
     private Button playButton;

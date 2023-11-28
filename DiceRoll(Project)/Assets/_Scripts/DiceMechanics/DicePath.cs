@@ -4,11 +4,23 @@ namespace DiceSpace
 {
     public sealed class DicePath
     {
+        private static DicePath instance;
+
         private RectTransform pathParent;
 
         private Vector3[] diceEdges;
 
-        public DicePath(RectTransform pathParent) => this.pathParent = pathParent;
+        public static DicePath Instance
+        {
+            get
+            {
+                if(instance == null)
+                    instance = new DicePath();
+                return instance;
+            }
+        }
+
+        public void SetParent(RectTransform pathParent) => this.pathParent = pathParent;
 
         public void SetEdgePoints()
         {

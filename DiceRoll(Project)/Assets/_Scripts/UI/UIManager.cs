@@ -8,7 +8,7 @@ using Zenject;
 
 namespace UISpace
 {
-    public class UIManager : MonoBehaviour, IDiceStartObserver, IDiceCompleteObserver
+    public class UIManager : MonoBehaviour, IRollStartObserver, IRollCompleteObserver
     {
         private Button rollButton;
 

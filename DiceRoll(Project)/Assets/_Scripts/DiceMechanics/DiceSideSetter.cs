@@ -4,7 +4,7 @@ using DiceSpace.StartObserver;
 
 namespace DiceSpace
 {
-    public sealed class DiceSideSetter : IDiceStartObserver, IDiceCompleteObserver
+    public sealed class DiceSideSetter : IRollStartObserver, IRollCompleteObserver
     {
         private RectTransform diceTransform;
         private DiceEdge randomDiceEdge;

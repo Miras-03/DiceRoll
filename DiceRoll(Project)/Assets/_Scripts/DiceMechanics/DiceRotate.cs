@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DiceSpace
 {
-    public sealed class DiceRotate : IDiceStartObserver, IDisposable
+    public sealed class DiceRotate : IRollStartObserver, IDisposable
     {
         private Tween rotateTweener;
         private RectTransform diceTransform;

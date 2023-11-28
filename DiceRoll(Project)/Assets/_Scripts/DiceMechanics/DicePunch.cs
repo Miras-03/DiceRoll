@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DiceSpace
 {
-    public sealed class DicePunch : IDiceCompleteObserver
+    public sealed class DicePunch : IRollCompleteObserver
     {
         private RectTransform diceTransform;
 
