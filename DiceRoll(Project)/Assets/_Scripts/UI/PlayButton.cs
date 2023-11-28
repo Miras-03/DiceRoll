@@ -1,31 +1,55 @@
 using DiceSpace;
 using DiceSpace.CompleteObserver;
 using DiceSpace.StartObserver;
+using System;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class PlayButton : MonoBehaviour, IDiceStartObserver, IDiceCompleteObserver
+public class PlayButton : IDisposable, IDiceStartObserver, IDiceCompleteObserver
 {
-    [Header("UI")]
-    [SerializeField] private Button rollButton;
-    [SerializeField] private Button playButton;
-    [SerializeField] private Image playButtonsImage;
-    [SerializeField] private TextMeshProUGUI playButtonsText;
+    private Button rollButton;
+    private Button playButton;
+
+    private TextMeshProUGUI clickDiceText;
+    private TextMeshProUGUI resultText;
+    private TextMeshProUGUI playButtonsText;
+
+    private Image playButtonsImage;
 
     private DiceEdge randomDiceEdge;
     private DifficultyClass difClass;
 
     [Inject]
-    public void Constructor(DifficultyClass difClass)
+    public void InjectClasses(DifficultyClass difClass)
     {
         this.difClass = difClass;
         randomDiceEdge = DiceEdge.Instance;
     }
 
-    private void Start()
+    [Inject]
+    public void InjectUI(Button[] buttons, TextMeshProUGUI[] texts, Image[] images) {
+        rollButton = buttons[0];
+        playButton = buttons[1];
+
+        clickDiceText = texts[0];
+        resultText = texts[1];
+        playButtonsText = texts[3];
+
+        playButtonsImage = images[0];
+
+        playButton.onClick.AddListener(Play);
+    }
+
+    public void Dispose() => playButton.onClick.RemoveListener(Play);
+
+    public void Play()
     {
+        difClass.GenerateDifClass();
+        difClass.ShowDifficulty();
+
+        SetClickText(true);
+        SetResultText(false);
         SetRollButton(true);
         SetPlayButton(false);
     }
@@ -34,6 +58,7 @@ public class PlayButton : MonoBehaviour, IDiceStartObserver, IDiceCompleteObserv
     {
         SetRollButton(false);
         SetPlayButton(false);
+        SetResultText(false);
     }
 
     public void OnDiceRollCompleted()
@@ -53,12 +78,16 @@ public class PlayButton : MonoBehaviour, IDiceStartObserver, IDiceCompleteObserv
         }
     }
 
-    private void SetRollButton(bool enabled) => rollButton.enabled = enabled;
-
-    private void SetPlayButton(bool enabled)
+    public void SetPlayButton(bool enabled)
     {
         playButton.enabled = enabled;
         playButtonsImage.enabled = enabled;
         playButtonsText.enabled = enabled;
     }
+
+    private void SetClickText(bool target) => clickDiceText.enabled = target;
+
+    private void SetResultText(bool target) => resultText.enabled = target;
+
+    private void SetRollButton(bool enabled) => rollButton.enabled = enabled;
 }

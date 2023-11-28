@@ -10,58 +10,63 @@ namespace UISpace
 {
     public class UIManager : MonoBehaviour, IDiceStartObserver, IDiceCompleteObserver
     {
-        [SerializeField] private Button rollButton;
+        private Button rollButton;
 
-        [Space(20)]
-        [Header("UI Texts")]
-        [SerializeField] private TextMeshProUGUI resultText;
-        [SerializeField] private TextMeshProUGUI clickDiceText;
-        [SerializeField] private TextMeshProUGUI difClassText;
+        private TextMeshProUGUI resultText;
+        private TextMeshProUGUI clickDiceText;
+        private TextMeshProUGUI difClassText;
 
         private DiceEdge randomDiceEdge;
         private DifficultyClass difClass;
         private RollResult rollResult;
+        private PlayButton playButtonClass;
 
         [Inject]
-        public void Constructor(DifficultyClass difClass)
+        public void InjectClasses(DifficultyClass difClass, PlayButton playButtonClass) 
         {
-            this.randomDiceEdge = DiceEdge.Instance;
             this.difClass = difClass;
+            this.playButtonClass = playButtonClass;
+            randomDiceEdge = DiceEdge.Instance;
+        }
+
+        [Inject]
+        public void InjectUI(Button[] buttons, TextMeshProUGUI[] texts)
+        {
+            rollButton = buttons[0];
+
+            clickDiceText = texts[0];
+            resultText = texts[1];
+            difClassText = texts[2];
 
             rollResult = new RollResult(resultText, clickDiceText);
         }
 
         private void Start()
         {
-            difClass.SetDifficultyClass(difClassText);
-            difClass.GenerateDifClass();
-            difClass.ShowDifficulty();
-        }
+            playButtonClass.SetPlayButton(false);
 
-        public void Play()
-        {
+            difClass.SetDifficultyClass(difClassText);
             difClass.GenerateDifClass();
             difClass.ShowDifficulty();
         }
 
         public void OnDiceRollStart()
         {
-            resultText.enabled = false;
-            SetTextMeshPro(false);
-            SetButton(false);
+            SetClickText(false);
+            SetRollButton(false);
         }
 
         public void OnDiceRollCompleted()
         {
             ResultGame();
-            SetButton(true);
+            SetRollButton(true);
         }
 
-        public void SetTextMeshPro(bool target) => clickDiceText.enabled = target;
+        private void SetClickText(bool target) => clickDiceText.enabled = target;
 
-        public void SetButton(bool target) => rollButton.enabled = target;
+        private void SetRollButton(bool target) => rollButton.enabled = target;
 
-        public void ResultGame()
+        private void ResultGame()
         {
             resultText.enabled = true;
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UISpace;
+using Zenject;
 
 namespace DiceSpace.CompleteObserver
 {
@@ -10,11 +11,13 @@ namespace DiceSpace.CompleteObserver
 
         [Header("Complete Observers")]
         [SerializeField] private UIManager uiManager;
-        [SerializeField] private PlayButton playButton;
         private DiceSideSetter diceSideSetter;
-
         private DiceComplete dice;
         private DicePunch dicePunch;
+        private PlayButton playButton;
+
+        [Inject]
+        public void Constructor(PlayButton playButton) => this.playButton = playButton;
 
         private void Awake()
         {

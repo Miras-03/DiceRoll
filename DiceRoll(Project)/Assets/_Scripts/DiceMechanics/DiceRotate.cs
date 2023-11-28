@@ -11,7 +11,7 @@ namespace DiceSpace
         private RectTransform diceTransform;
         private Vector3 rotateVec = new Vector3(0, 300, 0);
 
-        private const int speed = 1500;
+        private const int speed = 3000;
 
         public DiceRotate(RectTransform diceTransform)
         {

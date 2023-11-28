@@ -1,5 +1,6 @@
 using UnityEngine;
 using UISpace;
+using Zenject;
 
 namespace DiceSpace.StartObserver
 {
@@ -12,18 +13,21 @@ namespace DiceSpace.StartObserver
         [Space(20)]
         [Header("Start Observers")]
         [SerializeField] private UIManager uiManager;
-        [SerializeField] private PlayButton playButton;
         private DiceSideSetter diceSideSetter;
-        private DiceStart diceStart;
-        private DiceRoll diceRoll;
         private DiceRotate diceRotate;
+        private DiceRoll diceRoll;
+        private DiceStart diceStart;
+        private PlayButton playButton;
+
+        [Inject]
+        public void Constructor(PlayButton playButton) => this.playButton = playButton;
 
         private void Awake()
         {
             diceSideSetter = new DiceSideSetter(diceTransform);
-            diceStart = new DiceStart();
-            diceRoll = new DiceRoll(diceTransform, pathsParent);
             diceRotate = new DiceRotate(diceTransform);
+            diceRoll = new DiceRoll(diceTransform, pathsParent);
+            diceStart = new DiceStart();
         }
 
         private void OnEnable()
