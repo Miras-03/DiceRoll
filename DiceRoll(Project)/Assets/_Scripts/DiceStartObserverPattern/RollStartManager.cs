@@ -7,6 +7,7 @@ namespace DiceSpace.StartObserver
 {
     public sealed class RollStartManager : MonoBehaviour
     {
+        [Space(20)]
         [Header("Rect Transforms")]
         [SerializeField] private RectTransform diceTransform;
         [SerializeField] private RectTransform auraParticleTransform;

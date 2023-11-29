@@ -7,6 +7,7 @@ namespace DiceSpace.CompleteObserver
 {
     public sealed class RollCompleteManager : MonoBehaviour
     {
+        [Space(20)]
         [SerializeField] private RectTransform diceTransform;
 
         [Space(20)]
