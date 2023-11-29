@@ -6,34 +6,30 @@ namespace DiceSpace
     {
         private static DicePath instance;
 
-        private RectTransform pathParent;
-
-        private Vector3[] diceEdges;
-
         public static DicePath Instance
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                     instance = new DicePath();
                 return instance;
             }
         }
 
-        public void SetParent(RectTransform pathParent) => this.pathParent = pathParent;
-
         public void SetEdgePoints()
         {
-            int diceEdgeCount = pathParent.childCount + 1;
+            int diceEdgeCount = PathTransform.childCount + 1;
 
-            diceEdges = new Vector3[diceEdgeCount];
+            DiceEdges = new Vector3[diceEdgeCount];
 
             for (int i = 0; i < diceEdgeCount-1; i++)
-                diceEdges[i] = pathParent.GetChild(i).position;
+                DiceEdges[i] = PathTransform.GetChild(i).position;
 
-            diceEdges[diceEdgeCount-1] = pathParent.position;
+            DiceEdges[diceEdgeCount-1] = PathTransform.position;
         }
 
-        public Vector3[] DiceEdges => diceEdges;
+        public RectTransform PathTransform { get; set; }
+
+        public Vector3[] DiceEdges { get; set; }
     }
 }

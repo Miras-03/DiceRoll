@@ -7,9 +7,9 @@ namespace DiceSpace.CompleteObserver
 {
     public sealed class RollCompleteManager : MonoBehaviour
     {
-        [Header("UI")]
         [SerializeField] private RectTransform diceTransform;
 
+        [Space(20)]
         [Header("Complete Observers")]
         [SerializeField] private UIManager uiManager;
         [SerializeField] private AuraParticle auraParticle;

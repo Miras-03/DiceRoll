@@ -2,7 +2,6 @@ using DG.Tweening;
 using UnityEngine;
 using System;
 using DiceSpace.StartObserver;
-using Zenject;
 
 namespace DiceSpace
 {
@@ -15,12 +14,11 @@ namespace DiceSpace
 
         private const int rollDuration = 3;
 
-        public DiceRoll(RectTransform diceTransform, RectTransform pathParent)
+        public DiceRoll(RectTransform diceTransform, RectTransform pathTransform)
         {
             this.diceTransform = diceTransform;
             dicePath = DicePath.Instance;
-            dicePath.SetParent(pathParent);
-            dicePath.SetEdgePoints();
+            //dicePath.PathTransform = pathTransform;
         }
 
         public void OnDiceRollStart() => Roll();
