@@ -7,14 +7,16 @@ namespace DiceSpace.StartObserver
 {
     public sealed class RollStartManager : MonoBehaviour
     {
+        [Header("Rect Transforms")]
         [SerializeField] private RectTransform diceTransform;
+        [SerializeField] private RectTransform auraParticleTransform;
         [SerializeField] private RectTransform pathTransform;
 
         [Space(20)]
         [Header("Start Observers")]
         [SerializeField] private UIManager uiManager;
         [SerializeField] private AuraParticle auraParticle;
-        [SerializeField] private FollowDice followDice;
+        private FollowDice followDice;
         private RollStart diceStart;
         private DiceSideSetter diceSideSetter;
         private DiceRotate diceRotate;
@@ -26,10 +28,11 @@ namespace DiceSpace.StartObserver
 
         private void Awake()
         {
+            followDice = new FollowDice(diceTransform, auraParticleTransform, pathTransform);
             diceStart = new RollStart();
             diceSideSetter = new DiceSideSetter(diceTransform);
             diceRotate = new DiceRotate(diceTransform);
-            diceRoll = new DiceRoll(diceTransform, pathTransform);
+            diceRoll = new DiceRoll(diceTransform);
         }
 
         private void OnEnable()

@@ -1,38 +1,36 @@
 using DiceSpace.StartObserver;
 using DG.Tweening;
 using UnityEngine;
-using DiceSpace;
 
-public sealed class FollowDice : MonoBehaviour, IRollStartObserver
+namespace DiceSpace
 {
-    [Header("Transforms")]
-    [SerializeField] private RectTransform target;
-    [SerializeField] private RectTransform pathTransform;
-
-    private DicePath dicePath;
-
-    private const int followSpeed = 6;
-
-    private void Awake()
+    public sealed class FollowDice : IRollStartObserver
     {
-        dicePath = DicePath.Instance;
-        
-    }
+        private RectTransform target;
+        private RectTransform auraParticleTransform;
 
-    private void Start()
-    {
-        dicePath.PathTransform = pathTransform;
-        dicePath.SetEdgePoints();
-    }
+        private DicePath dicePath;
 
-    public void OnDiceRollStart() => DelayAndFollow();
+        private const int followSpeed = 7;
 
-    private void DelayAndFollow()
-    {
-        transform.
-            DOPath(dicePath.DiceEdges, followSpeed, PathType.CatmullRom).
-            SetSpeedBased().
-            SetEase(Ease.OutSine).
-            SetLookAt(target);
+        public FollowDice(RectTransform target, RectTransform auraParticleTransform, RectTransform pathTransform)
+        {
+            dicePath = DicePath.Instance;
+            dicePath.PathTransform = pathTransform;
+            dicePath.SetEdgePoints();
+            this.target = target;
+            this.auraParticleTransform = auraParticleTransform;
+        }
+
+        public void OnDiceRollStart() => DelayAndFollow();
+
+        private void DelayAndFollow()
+        {
+            auraParticleTransform.
+                DOPath(dicePath.DiceEdges, followSpeed, PathType.CatmullRom).
+                SetSpeedBased().
+                SetEase(Ease.OutSine).
+                SetLookAt(target);
+        }
     }
 }

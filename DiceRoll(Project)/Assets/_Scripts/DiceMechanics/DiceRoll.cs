@@ -14,11 +14,10 @@ namespace DiceSpace
 
         private const int rollDuration = 3;
 
-        public DiceRoll(RectTransform diceTransform, RectTransform pathTransform)
+        public DiceRoll(RectTransform diceTransform)
         {
             this.diceTransform = diceTransform;
             dicePath = DicePath.Instance;
-            //dicePath.PathTransform = pathTransform;
         }
 
         public void OnDiceRollStart() => Roll();
