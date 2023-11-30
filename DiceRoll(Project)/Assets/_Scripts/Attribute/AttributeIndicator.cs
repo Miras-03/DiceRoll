@@ -1,31 +1,31 @@
 using TMPro;
-using UnityEngine;
 using Zenject;
 
 namespace AttributeSpace
 {
-    public class AttributeIndicator : MonoBehaviour
+    public class AttributeIndicator
     {
-        [Space(20)]
-        [Header("Texts")]
-        [SerializeField] private TextMeshProUGUI intellectText;
-        [SerializeField] private TextMeshProUGUI powerText;
-        [SerializeField] private TextMeshProUGUI dexterityText;
+        private TextMeshProUGUI intellectText;
+        private TextMeshProUGUI powerText;
+        private TextMeshProUGUI dexterityText;
 
         private AttributeContainer attributeContainer;
 
         [Inject]
-        public void Constructor(AttributeContainer attributeContainer) => 
+        public void Constructor(AttributeContainer attributeContainer, TextMeshProUGUI[] texts)
+        {
             this.attributeContainer = attributeContainer;
 
-        private void Start()
-        {
-            attributeContainer.SetAttributeDates();
+            intellectText = texts[4];
+            powerText = texts[5];
+            dexterityText = texts[6];
+
             SetTexts();
         }
 
         public void SetTexts()
         {
+            attributeContainer.SetAttributeDates();
             intellectText.text = $"Intellect: {attributeContainer.attributesData["Intellect"]}";
             powerText.text = $"Power: {attributeContainer.attributesData["Power"]}";
             dexterityText.text = $"Dexterity: {attributeContainer.attributesData["Dexterity"]}";

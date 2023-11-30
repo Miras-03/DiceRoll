@@ -1,4 +1,3 @@
-using DG.Tweening;
 using DiceSpace;
 using DiceSpace.CompleteObserver;
 using ParticleSpace;
@@ -51,7 +50,7 @@ namespace AttributeSpace
         public async void OnDiceRollCompleted()
         {
             await Task.Delay(1000);
-                attributeUse.NotifyObservers();
+            attributeUse.NotifyObservers();
         }
     }
 }

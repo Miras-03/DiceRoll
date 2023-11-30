@@ -1,7 +1,7 @@
 using AttributeSpace;
 using Zenject;
 
-public class AttributeContainerInstaller : MonoInstaller
+public sealed class AttributeContainerInstaller : MonoInstaller
 {
-    public override void InstallBindings() => Container.Bind<AttributeContainer>().AsSingle();
+    public override void InstallBindings() => Container.BindInterfacesAndSelfTo<AttributeContainer>().AsSingle();
 }

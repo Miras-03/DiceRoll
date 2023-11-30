@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttributeIncrease
 {
-    private const int maxAttributeLevel = 5;
+    private const int maxAttributeLevel = 3;
 
     public void CheckOrIncreaseIntellect(bool included)
     {

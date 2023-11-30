@@ -1,14 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace AttributeSpace
 {
-    public class AttributeUI : MonoBehaviour
+    public sealed class AttributeUI : MonoBehaviour
     {
-        [Space(20)]
-        [Header("Scripts")]
-        [SerializeField] private AttributeIndicator attributeIndicator;
-
         [Space(20)]
         [Header("Buttons")]
         [SerializeField] private Button increaseButton;
@@ -20,6 +17,11 @@ namespace AttributeSpace
         [SerializeField] private Toggle dexternityToggle;
 
         private AttributeIncrease attributeIncrease;
+        private AttributeIndicator attributeIndicator;
+
+        [Inject]
+        public void Constructor(AttributeIndicator attributeIndicator) => 
+            this.attributeIndicator = attributeIndicator;
 
         private void Awake()
         {

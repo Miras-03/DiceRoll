@@ -1,5 +1,4 @@
 using UnityEngine;
-using UISpace;
 using Zenject;
 using ParticleSpace;
 using AttributeSpace;

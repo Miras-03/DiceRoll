@@ -7,25 +7,23 @@ namespace DiceSpace
     public sealed class DiceEdge : IAttributeUseObserver
     {
         private AttributeContainer attributeContainer;
-        private DiceEdge diceEdge;
+        private DifficultyClass difClass;
 
         public int EdgeNumber { get; set; }
         private const int diceEdgeCount = 19;
 
         [Inject]
-        public void Constructor(AttributeContainer attributeContainer, DiceEdge diceEdge)
+        public void Constructor(AttributeContainer attributeContainer, DifficultyClass difClass)
         {
             this.attributeContainer = attributeContainer;
-            this.diceEdge = diceEdge;
+            this.difClass = difClass;
         }
 
         public void GenerateRandomNumber() => EdgeNumber = UnityEngine.Random.Range(0, diceEdgeCount);
 
         public void OnAttributeUse()
         {
-            int resultNumber = diceEdge.EdgeNumber;
-
-            if (resultNumber != 0 && resultNumber != diceEdgeCount)
+            if (EdgeNumber < difClass.RandomDifClass)
                 EdgeNumber = Math.Min(EdgeNumber + attributeContainer.GetSum(), diceEdgeCount);
         }
     }
