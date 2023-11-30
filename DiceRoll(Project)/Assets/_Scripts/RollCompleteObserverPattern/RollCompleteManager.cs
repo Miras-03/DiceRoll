@@ -2,6 +2,7 @@ using UnityEngine;
 using UISpace;
 using Zenject;
 using ParticleSpace;
+using AttributeSpace;
 
 namespace DiceSpace.CompleteObserver
 {
@@ -12,32 +13,29 @@ namespace DiceSpace.CompleteObserver
 
         [Space(20)]
         [Header("Complete Observers")]
-        [SerializeField] private UIManager uiManager;
         [SerializeField] private AuraParticle auraParticle;
-        [SerializeField] private SparkParticle punchParticle;
-        private DiceSideSetter diceSideSetter;
+        [SerializeField] private AttributeUseManager attributeUseManager;
+        private DiceSideSetter sideSetter;
         private RollComplete dice;
         private DicePunch dicePunch;
-        private PlayButton playButton;
 
         [Inject]
-        public void Constructor(PlayButton playButton) => this.playButton = playButton;
+        public void Constructor(DiceSideSetter sideSetter) => this.sideSetter = sideSetter;
 
         private void Awake()
         {
             dice = new RollComplete();
-            diceSideSetter = new DiceSideSetter(diceTransform);
             dicePunch = new DicePunch(diceTransform);
         }
 
+        private void Start() => sideSetter.SetTransform(diceTransform);
+
         private void OnEnable()
         {
-            dice.AddObserver(uiManager);
-            dice.AddObserver(playButton);
-            dice.AddObserver(diceSideSetter);
+            dice.AddObserver(sideSetter);
             dice.AddObserver(dicePunch);
             dice.AddObserver(auraParticle);
-            dice.AddObserver(punchParticle);
+            dice.AddObserver(attributeUseManager);
 
             DiceRoll.OnRollComplete += NotifyObservers;
         }

@@ -1,24 +1,32 @@
-using UnityEngine;
+using AttributeSpace;
+using System;
+using Zenject;
 
 namespace DiceSpace
 {
-    public class DiceEdge
+    public sealed class DiceEdge : IAttributeUseObserver
     {
-        private static DiceEdge instance;
+        private AttributeContainer attributeContainer;
+        private DiceEdge diceEdge;
 
         public int EdgeNumber { get; set; }
-        private const int diceEdgeCount = 20;
+        private const int diceEdgeCount = 19;
 
-        public static DiceEdge Instance
+        [Inject]
+        public void Constructor(AttributeContainer attributeContainer, DiceEdge diceEdge)
         {
-            get
-            {
-                if (instance == null)
-                    instance = new DiceEdge();
-                return instance;
-            }
+            this.attributeContainer = attributeContainer;
+            this.diceEdge = diceEdge;
         }
 
-        public void GenerateRandomNumber() => EdgeNumber = Random.Range(0, diceEdgeCount);
+        public void GenerateRandomNumber() => EdgeNumber = UnityEngine.Random.Range(0, diceEdgeCount);
+
+        public void OnAttributeUse()
+        {
+            int resultNumber = diceEdge.EdgeNumber;
+
+            if (resultNumber != 0 && resultNumber != diceEdgeCount)
+                EdgeNumber = Math.Min(EdgeNumber + attributeContainer.GetSum(), diceEdgeCount);
+        }
     }
 }

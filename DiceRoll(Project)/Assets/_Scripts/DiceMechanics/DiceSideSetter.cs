@@ -1,13 +1,16 @@
 using UnityEngine;
 using DiceSpace.CompleteObserver;
 using DiceSpace.StartObserver;
+using AttributeSpace;
+using Zenject;
+using System.Threading.Tasks;
 
 namespace DiceSpace
 {
-    public sealed class DiceSideSetter : IRollStartObserver, IRollCompleteObserver
+    public sealed class DiceSideSetter : IRollStartObserver, IRollCompleteObserver, IAttributeUseObserver
     {
         private RectTransform diceTransform;
-        private DiceEdge randomDiceEdge;
+        private DiceEdge diceEdge;
 
         #region
         private Vector3[] diceEdges = {
@@ -34,20 +37,27 @@ namespace DiceSpace
             };
         #endregion
 
-        public DiceSideSetter(RectTransform diceTransform)
-        {
-            this.diceTransform = diceTransform;
-            randomDiceEdge = DiceEdge.Instance;
-        }
+        [Inject]
+        public void Constructor(DiceEdge diceEdge) => this.diceEdge = diceEdge;
 
-        public void OnDiceRollStart() => randomDiceEdge.GenerateRandomNumber();
+        public void SetTransform(RectTransform diceTransform) => this.diceTransform = diceTransform;
+
+        public void OnDiceRollStart() => diceEdge.GenerateRandomNumber();
 
         public void OnDiceRollCompleted() => SetSide();
 
+        public void OnAttributeUse() => WaitAndSetSide();
+
         public void SetSide()
         {
-            int diceEdge = randomDiceEdge.EdgeNumber;
+            int diceEdge = this.diceEdge.EdgeNumber;
             diceTransform.rotation = Quaternion.Euler(diceEdges[diceEdge]);
+        }
+
+        private async void WaitAndSetSide()
+        {
+            await Task.Delay(1000);
+            SetSide();
         }
     }
 }

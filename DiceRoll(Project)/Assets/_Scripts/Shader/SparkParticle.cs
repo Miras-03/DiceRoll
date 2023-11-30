@@ -1,35 +1,37 @@
+using AttributeSpace;
 using DiceSpace;
-using DiceSpace.CompleteObserver;
+using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
 namespace ParticleSpace
 {
-    public sealed class SparkParticle : MonoBehaviour, IRollCompleteObserver
+    public sealed class SparkParticle : MonoBehaviour, IAttributeUseObserver
     {
         [SerializeField] private ParticleSystem punchParticle;
         private DifficultyClass difClass;
-        private DiceEdge randomDiceEdge;
+        private DiceEdge diceEdge;
+
+        private const int diceEdgeCount = 19;
 
         [Inject]
-        public void InjectClasses(DifficultyClass difClass)
+        public void Constructor(DifficultyClass difClass, DiceEdge diceEdge)
         {
             this.difClass = difClass;
-            randomDiceEdge = DiceEdge.Instance;
+            this.diceEdge = diceEdge;
         }
 
-        public void OnDiceRollCompleted() => CheckOrPunch();
+        public void OnAttributeUse() => CheckOrPunch();
 
-        private void CheckOrPunch()
+        private async void CheckOrPunch()
         {
-            int resultNumber = randomDiceEdge.EdgeNumber + 1;
-            int difClassNum = difClass.RandomDifClass;
+            int resultNumber = diceEdge.EdgeNumber;
 
-            if (resultNumber >= difClassNum)
+            if (resultNumber >= difClass.RandomDifClass)
+            {
+                await Task.Delay(900);
                 punchParticle.Play();
-
-            var main = punchParticle.main;
-            main.loop = false;
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace AttributeSpace
 {
@@ -13,24 +14,21 @@ namespace AttributeSpace
 
         private AttributeContainer attributeContainer;
 
+        [Inject]
+        public void Constructor(AttributeContainer attributeContainer) => 
+            this.attributeContainer = attributeContainer;
+
         private void Start()
         {
-            SetAttributeValues();
+            attributeContainer.SetAttributeDates();
             SetTexts();
-        }
-
-        public void SetAttributeValues()
-        {
-            attributeContainer.Intellect = PlayerPrefs.GetInt("Intellect", 0);
-            attributeContainer.Power = PlayerPrefs.GetInt("Power", 0);
-            attributeContainer.Dexterity = PlayerPrefs.GetInt("Dexterity", 0);
         }
 
         public void SetTexts()
         {
-            intellectText.text = $"Intellect: {attributeContainer.Intellect}";
-            powerText.text = $"Power: {attributeContainer.Power}";
-            dexterityText.text = $"Dexterity: {attributeContainer.Dexterity}";
+            intellectText.text = $"Intellect: {attributeContainer.attributesData["Intellect"]}";
+            powerText.text = $"Power: {attributeContainer.attributesData["Power"]}";
+            dexterityText.text = $"Dexterity: {attributeContainer.attributesData["Dexterity"]}";
         }
     }
 }

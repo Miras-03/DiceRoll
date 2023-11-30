@@ -1,6 +1,8 @@
+using AttributeSpace;
 using DG.Tweening;
 using DiceSpace.CompleteObserver;
 using UnityEngine;
+using Zenject;
 
 namespace DiceSpace
 {

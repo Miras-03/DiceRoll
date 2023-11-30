@@ -17,21 +17,24 @@ namespace DiceSpace.StartObserver
         [Header("Start Observers")]
         [SerializeField] private UIManager uiManager;
         [SerializeField] private AuraParticle auraParticle;
+        private DiceSideSetter sideSetter;
         private FollowDice followDice;
         private RollStart diceStart;
-        private DiceSideSetter diceSideSetter;
         private DiceRotate diceRotate;
         private DiceRoll diceRoll;
         private PlayButton playButton;
 
         [Inject]
-        public void Constructor(PlayButton playButton) => this.playButton = playButton;
+        public void Constructor(DiceSideSetter sideSetter, PlayButton playButton)
+        {
+            this.sideSetter = sideSetter;
+            this.playButton = playButton;
+        }
 
         private void Awake()
         {
             followDice = new FollowDice(diceTransform, auraParticleTransform, pathTransform);
             diceStart = new RollStart();
-            diceSideSetter = new DiceSideSetter(diceTransform);
             diceRotate = new DiceRotate(diceTransform);
             diceRoll = new DiceRoll(diceTransform);
         }
@@ -43,8 +46,8 @@ namespace DiceSpace.StartObserver
             diceStart.Add(playButton);
             diceStart.Add(diceRoll);
             diceStart.Add(diceRotate);
-            diceStart.Add(diceSideSetter);
             diceStart.Add(auraParticle);
+            diceStart.Add(sideSetter);
         }
 
         private void OnDestroy() => diceStart.RemoveAll();

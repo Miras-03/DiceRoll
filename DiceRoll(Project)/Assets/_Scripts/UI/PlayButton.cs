@@ -1,12 +1,14 @@
+using AttributeSpace;
 using DiceSpace;
 using DiceSpace.CompleteObserver;
 using DiceSpace.StartObserver;
 using System;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine.UI;
 using Zenject;
 
-public class PlayButton : IDisposable, IRollStartObserver, IRollCompleteObserver
+public class PlayButton : IDisposable, IRollStartObserver, IAttributeUseObserver
 {
     private Button rollButton;
     private Button playButton;
@@ -17,14 +19,14 @@ public class PlayButton : IDisposable, IRollStartObserver, IRollCompleteObserver
 
     private Image playButtonsImage;
 
-    private DiceEdge randomDiceEdge;
+    private DiceEdge diceEdge;
     private DifficultyClass difClass;
 
     [Inject]
-    public void InjectClasses(DifficultyClass difClass)
+    public void InjectClasses(DifficultyClass difClass, DiceEdge diceEdge)
     {
         this.difClass = difClass;
-        randomDiceEdge = DiceEdge.Instance;
+        this.diceEdge = diceEdge;
     }
 
     [Inject]
@@ -61,9 +63,10 @@ public class PlayButton : IDisposable, IRollStartObserver, IRollCompleteObserver
         SetResultText(false);
     }
 
-    public void OnDiceRollCompleted()
+    public async void OnAttributeUse()
     {
-        int resultNumber = randomDiceEdge.EdgeNumber+1;
+        await Task.Delay(2000);
+        int resultNumber = diceEdge.EdgeNumber + 1;
         int difClassNum = difClass.RandomDifClass;
 
         if (resultNumber >= difClassNum)
