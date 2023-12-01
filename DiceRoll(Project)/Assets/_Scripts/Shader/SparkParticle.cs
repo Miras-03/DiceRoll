@@ -25,7 +25,7 @@ namespace ParticleSpace
 
         private async void CheckOrPunch()
         {
-            int resultNumber = diceEdge.EdgeNumber;
+            int resultNumber = diceEdge.EdgeNumber+1;
 
             if (resultNumber >= difClass.RandomDifClass)
             {

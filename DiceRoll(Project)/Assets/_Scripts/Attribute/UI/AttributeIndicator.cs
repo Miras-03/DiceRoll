@@ -3,7 +3,7 @@ using Zenject;
 
 namespace AttributeSpace
 {
-    public class AttributeIndicator
+    public class AttributeIndicator : IInitializable
     {
         private TextMeshProUGUI intellectText;
         private TextMeshProUGUI powerText;
@@ -19,9 +19,9 @@ namespace AttributeSpace
             intellectText = texts[4];
             powerText = texts[5];
             dexterityText = texts[6];
-
-            SetTexts();
         }
+
+        public void Initialize() => SetTexts();
 
         public void SetTexts()
         {

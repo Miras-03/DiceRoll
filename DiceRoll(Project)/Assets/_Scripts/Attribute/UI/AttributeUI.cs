@@ -1,3 +1,4 @@
+using UISpace;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -18,14 +19,16 @@ namespace AttributeSpace
 
         private AttributeIncrease attributeIncrease;
         private AttributeIndicator attributeIndicator;
-
-        private bool intellectIncluded = false;
-        private bool powerIncluded = false;
-        private bool dexternityIncluded = false;
+        private TextPunch textPunch;
+        private TextColor textColor;
 
         [Inject]
-        public void Constructor(AttributeIndicator attributeIndicator) => 
+        public void Constructor(AttributeIndicator attributeIndicator, TextPunch textPunch, TextColor textColor)
+        {
             this.attributeIndicator = attributeIndicator;
+            this.textPunch = textPunch;
+            this.textColor = textColor;
+        }
 
         private void Awake()
         {
@@ -55,15 +58,22 @@ namespace AttributeSpace
 
         public void Increase()
         {
-            attributeIncrease.CheckOrIncreaseIntellect(intellectIncluded);
-            attributeIncrease.CheckOrIncreasePower(powerIncluded);
-            attributeIncrease.CheckOrIncreaseDexterity(dexternityIncluded);
+            attributeIncrease.CheckOrIncreaseIntellect(IntellectIncluded);
+            attributeIncrease.CheckOrIncreasePower(PowerIncluded);
+            attributeIncrease.CheckOrIncreaseDexterity(DexternityIncluded);
+
+            textPunch.DoPunch();
+            textColor.DoColor(Color.magenta);
 
             attributeIndicator.SetTexts();
         }
 
-        public void SetIntellect(bool included) => intellectIncluded = included;
-        public void SetPower(bool included) => powerIncluded = included;
-        public void SetDexternity(bool included) => dexternityIncluded = included;
+        public void SetIntellect(bool included) => IntellectIncluded = included;
+        public void SetPower(bool included) => PowerIncluded = included;
+        public void SetDexternity(bool included) => DexternityIncluded = included;
+
+        public bool IntellectIncluded = false;
+        public bool PowerIncluded = false;
+        public bool DexternityIncluded = false;
     }
 }
