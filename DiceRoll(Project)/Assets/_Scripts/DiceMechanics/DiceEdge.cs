@@ -8,23 +8,32 @@ namespace DiceSpace
     {
         private AttributeContainer attributeContainer;
         private DifficultyClass difClass;
+        private UIPunch uiPunch;
 
         public int EdgeNumber { get; set; }
         private const int diceEdgeCount = 19;
 
         [Inject]
-        public void Constructor(AttributeContainer attributeContainer, DifficultyClass difClass)
+        public void Constructor(AttributeContainer attributeContainer, DifficultyClass difClass, UIPunch uiPunch)
         {
+            this.uiPunch = uiPunch;
             this.attributeContainer = attributeContainer;
             this.difClass = difClass;
         }
 
-        public void GenerateRandomNumber() => EdgeNumber = UnityEngine.Random.Range(0, diceEdgeCount);
+        public void GenerateRandomNumber() => EdgeNumber = 9;
 
         public void OnAttributeUse()
         {
-            if (EdgeNumber < difClass.RandomDifClass)
-                EdgeNumber = Math.Min(EdgeNumber + attributeContainer.GetSum(), diceEdgeCount);
+            int resultNumber = EdgeNumber + 1;
+            int attributeSum = attributeContainer.GetSum();
+
+            if (resultNumber < difClass.RandomDifClass)
+            {
+                EdgeNumber = Math.Min(EdgeNumber + attributeSum, diceEdgeCount);
+                if (attributeSum > 0)
+                    uiPunch.Punch();
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 using AttributeSpace;
 using DiceSpace;
-using DiceSpace.CompleteObserver;
 using DiceSpace.StartObserver;
 using System;
 using System.Threading.Tasks;
@@ -8,13 +7,12 @@ using TMPro;
 using UnityEngine.UI;
 using Zenject;
 
-public class PlayButton : IDisposable, IRollStartObserver, IAttributeUseObserver
+public class PlayButton : IInitializable, IDisposable, IRollStartObserver, IAttributeUseObserver
 {
     private Button rollButton;
     private Button playButton;
 
     private TextMeshProUGUI clickDiceText;
-    private TextMeshProUGUI resultText;
     private TextMeshProUGUI playButtonsText;
 
     private Image playButtonsImage;
@@ -35,13 +33,12 @@ public class PlayButton : IDisposable, IRollStartObserver, IAttributeUseObserver
         playButton = buttons[1];
 
         clickDiceText = texts[0];
-        resultText = texts[1];
         playButtonsText = texts[3];
 
         playButtonsImage = images[0];
-
-        playButton.onClick.AddListener(Play);
     }
+
+    public void Initialize() => playButton.onClick.AddListener(Play);
 
     public void Dispose() => playButton.onClick.RemoveListener(Play);
 
@@ -51,7 +48,6 @@ public class PlayButton : IDisposable, IRollStartObserver, IAttributeUseObserver
         difClass.ShowDifficulty();
 
         SetClickText(true);
-        SetResultText(false);
         SetRollButton(true);
         SetPlayButton(false);
     }
@@ -60,7 +56,6 @@ public class PlayButton : IDisposable, IRollStartObserver, IAttributeUseObserver
     {
         SetRollButton(false);
         SetPlayButton(false);
-        SetResultText(false);
     }
 
     public async void OnAttributeUse()
@@ -78,6 +73,7 @@ public class PlayButton : IDisposable, IRollStartObserver, IAttributeUseObserver
         {
             SetRollButton(true);
             SetPlayButton(false);
+            SetClickText(true);
         }
     }
 
@@ -89,8 +85,6 @@ public class PlayButton : IDisposable, IRollStartObserver, IAttributeUseObserver
     }
 
     private void SetClickText(bool target) => clickDiceText.enabled = target;
-
-    private void SetResultText(bool target) => resultText.enabled = target;
 
     private void SetRollButton(bool enabled) => rollButton.enabled = enabled;
 }

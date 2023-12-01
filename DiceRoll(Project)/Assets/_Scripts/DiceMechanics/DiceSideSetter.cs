@@ -48,16 +48,16 @@ namespace DiceSpace
 
         public void OnAttributeUse() => WaitAndSetSide();
 
-        public void SetSide()
-        {
-            int diceEdge = this.diceEdge.EdgeNumber;
-            diceTransform.rotation = Quaternion.Euler(diceEdges[diceEdge]);
-        }
-
         private async void WaitAndSetSide()
         {
             await Task.Delay(1000);
             SetSide();
+        }
+
+        private void SetSide()
+        {
+            int diceEdge = this.diceEdge.EdgeNumber;
+            diceTransform.rotation = Quaternion.Euler(diceEdges[diceEdge]);
         }
     }
 }

@@ -18,8 +18,8 @@ namespace AttributeSpace
         [SerializeField] private UIManager uiManager;
         [SerializeField] private SparkParticle sparkParticle;
 
-        private PlayButton playButton;
         private AttributeUse attributeUse;
+        private PlayButton playButton;
         private DiceScale diceScale;
         private DiceEdge diceEdge;
         private DiceSideSetter sideSetter;

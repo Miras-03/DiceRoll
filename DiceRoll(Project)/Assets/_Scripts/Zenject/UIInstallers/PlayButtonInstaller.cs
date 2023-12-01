@@ -2,5 +2,5 @@ using Zenject;
 
 public sealed class PlayButtonInstaller : MonoInstaller
 {
-    public override void InstallBindings() => Container.Bind<PlayButton>().AsSingle();
+    public override void InstallBindings() => Container.BindInterfacesAndSelfTo<PlayButton>().AsSingle();
 }

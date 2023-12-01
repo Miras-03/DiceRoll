@@ -2,7 +2,6 @@ using DiceSpace;
 using DiceSpace.StartObserver;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 using AttributeSpace;
 using System.Threading.Tasks;
@@ -11,8 +10,6 @@ namespace UISpace
 {
     public class UIManager : MonoBehaviour, IRollStartObserver, IAttributeUseObserver
     {
-        private Button rollButton;
-
         private TextMeshProUGUI resultText;
         private TextMeshProUGUI clickDiceText;
         private TextMeshProUGUI difClassText;
@@ -31,16 +28,14 @@ namespace UISpace
         }
 
         [Inject]
-        public void InjectUI(Button[] buttons, TextMeshProUGUI[] texts)
+        public void InjectUI(TextMeshProUGUI[] texts)
         {
-            rollButton = buttons[0];
-
             clickDiceText = texts[0];
             resultText = texts[1];
             difClassText = texts[2];
-
-            rollResult = new RollResult(resultText, clickDiceText);
         }
+
+        private void Awake() => rollResult = new RollResult(resultText);
 
         private void Start()
         {
@@ -54,28 +49,26 @@ namespace UISpace
         public void OnDiceRollStart()
         {
             SetClickText(false);
-            SetRollButton(false);
+            SetResultText(false);
         }
 
         public async void OnAttributeUse()
         {
             await Task.Delay(2000);
             ResultGame();
-            SetRollButton(true);
         }
 
         private void SetClickText(bool target) => clickDiceText.enabled = target;
 
-        private void SetRollButton(bool target) => rollButton.enabled = target;
+        private void SetResultText(bool target) => resultText.enabled = target;
 
         private void ResultGame()
         {
-            resultText.enabled = true;
-
             int resultNumber = diceEdge.EdgeNumber + 1;
             int difClassNum = difClass.RandomDifClass;
 
             resultText.text = rollResult.ResultGame(resultNumber, difClassNum);
+            SetResultText(true);
         }
     }
 }

@@ -6,13 +6,8 @@ namespace DiceSpace
     public sealed class RollResult
     {
         private TextMeshProUGUI resultText;
-        private TextMeshProUGUI clickButtonText;
 
-        public RollResult(TextMeshProUGUI resultText, TextMeshProUGUI clickButtonText)
-        {
-            this.resultText = resultText;
-            this.clickButtonText = clickButtonText;
-        }
+        public RollResult(TextMeshProUGUI resultText) => this.resultText = resultText;
 
         public string ResultGame(int resultNumber, int difClass)
         {
@@ -35,15 +30,9 @@ namespace DiceSpace
         private void SetColor(int resultNumber, int difClass)
         {
             if (resultNumber >= difClass)
-            {
                 resultText.color = Color.green;
-                clickButtonText.enabled = false;
-            }
             else
-            {
                 resultText.color = Color.red;
-                clickButtonText.enabled = true;
-            }
         }
     }
 }
